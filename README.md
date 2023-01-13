@@ -1,1 +1,1 @@
-# Magicae-Insolitus
+# Magicae Insolitus

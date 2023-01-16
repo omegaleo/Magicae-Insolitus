@@ -1,18 +1,34 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
+using OmegaLeo.Toolbox.Runtime.Models;
 using UnityEngine;
 
-public class GameManager : MonoBehaviour
+public class GameManager : InstancedBehavior<GameManager>
 {
-    // Start is called before the first frame update
-    void Start()
+    public enum Difficulty
     {
-        
+        EASY,
+        NORMAL,
+        HARD
     }
 
-    // Update is called once per frame
-    void Update()
+    [Serializable]
+    public class DifficultySetting
     {
+        public Difficulty difficulty;
+        public int minRooms => maxRooms / 2;
+        public int maxRooms;
+    }
+
+    [SerializeField] private List<DifficultySetting> _difficultySettings = new List<DifficultySetting>();
+    public Difficulty difficulty;
+
+    public Tuple<int, int> GetDifficultySettings()
+    {
+        var diff = _difficultySettings.FirstOrDefault(x => x.difficulty == difficulty);
         
+        return new Tuple<int, int>(diff.minRooms, diff.maxRooms);
     }
 }

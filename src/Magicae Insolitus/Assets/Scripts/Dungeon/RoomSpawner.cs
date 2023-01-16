@@ -32,8 +32,7 @@ public class RoomSpawner : MonoBehaviour
 
             if (roomToSpawn != null)
             {
-                var room = Instantiate(roomToSpawn, SpawnParent.instance.transform);
-                room.transform.position = transform.position;
+                SpawnParent.instance.SpawnRoom(roomToSpawn, transform.position, openingDirection);
             }
 
             _spawned = true;
@@ -46,9 +45,7 @@ public class RoomSpawner : MonoBehaviour
         {
             if (!col.GetComponent<RoomSpawner>()._spawned && !_spawned)
             {
-                // spawn walls blocking openings - https://youtu.be/CUdKdHmT8xA?t=103
-                var room = Instantiate(RoomManager.instance.GetRandomRoom(OpeningDirection.Center), SpawnParent.instance.transform);
-                room.transform.position = transform.position;
+                SpawnParent.instance.SpawnRoom(RoomManager.instance.GetRandomRoom(OpeningDirection.Center), transform.position, openingDirection);
                 Destroy(gameObject);
             }
 

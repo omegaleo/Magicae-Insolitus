@@ -22,7 +22,7 @@ public class SpawnParent : InstancedBehavior<SpawnParent>
     [SerializeField] private int _maxRooms = 100;
 
     private int _shopsToSpawn => _rooms.Count / 25;
-    private int _chestRoomsToSpawn => _rooms.Count / 4;
+    private int _chestRoomsToSpawn => _rooms.Count / 10;
 
     private int _fountainsToSpawn => _rooms.Count / 20;
 
@@ -49,17 +49,33 @@ public class SpawnParent : InstancedBehavior<SpawnParent>
         {
             SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex);
         }
-        
-        _bossRoom = _rooms.Where(x => x.canBeBossRoom).ToList().Random();
-        
-        Debug.Log($"Number of shops to spawn: {_shopsToSpawn}, Chests to spawn: {_chestRoomsToSpawn}, Fountains to spawn: {_fountainsToSpawn}, Monster rooms to spawn: {_monsterRoomsToSpawn}");
+        else
+        {
+            _bossRoom = _rooms.Where(x => x.canBeBossRoom).ToList().Random();
+            _bossRoom.SetRoomType(Room.RoomType.Boss);
+            SetRoom(_shopsToSpawn, Room.RoomType.Shop);
+            SetRoom(_chestRoomsToSpawn, Room.RoomType.Chest);
+            SetRoom(_fountainsToSpawn, Room.RoomType.Fountain);
+            SetRoom(_monsterRoomsToSpawn, Room.RoomType.Monster);
+
+            Debug.Log($"Number of shops to spawn: {_shopsToSpawn}, Chests to spawn: {_chestRoomsToSpawn}, Fountains to spawn: {_fountainsToSpawn}, Monster rooms to spawn: {_monsterRoomsToSpawn}");
+        }
     }
 
+    private void SetRoom(int amount, Room.RoomType type)
+    {
+        for (int i = 0; i < amount; i++)
+        {
+            var room = _rooms.Where(x => x.roomType == Room.RoomType.None).ToList().Random();
+            room.SetRoomType(type);
+        }
+    }
+    
     public void SpawnRoom(GameObject roomPrefab, Vector3 position, RoomSpawner.OpeningDirection direction)
     {
         GameObject room = null;
         
-        if (_rooms.Count >= _maxRooms)
+        if (_rooms.Count >= _maxRooms - 10)
         {
             room = Instantiate(RoomManager.instance.GetClosedRoom(direction), this.transform);
         }

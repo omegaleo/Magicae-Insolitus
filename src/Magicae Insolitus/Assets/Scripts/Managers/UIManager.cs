@@ -9,5 +9,5 @@ public class UIManager : InstancedBehavior<UIManager>
     [SerializeField] private List<UIBase<Component>> uiCollection = new();
 
     // To stop player and NPC movement
-    public bool IsUIOpen => uiCollection.Any(x => x.IsOpen);
+    public bool IsUIOpen => uiCollection?.Any(x => x.IsOpen) ?? false;
 }

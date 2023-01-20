@@ -1,9 +1,10 @@
 using System.Collections;
 using System.Collections.Generic;
+using OmegaLeo.Toolbox.Runtime.Models;
 using Unity.VisualScripting;
 using UnityEngine;
 
-public class PlayerManager : MonoBehaviour
+public class PlayerManager : InstancedBehavior<PlayerManager>
 {
     [SerializeField] private float runSpeed = 10f;
     
@@ -15,6 +16,9 @@ public class PlayerManager : MonoBehaviour
 
     private void OnMove(float horizontal, float vertical)
     {
-        GetComponent<Rigidbody2D>().velocity = new Vector2(horizontal * runSpeed, vertical * runSpeed);
+        if (!UIManager.instance.IsUIOpen)
+        {
+            GetComponent<Rigidbody2D>().velocity = new Vector2(horizontal * runSpeed, vertical * runSpeed);
+        }
     }
 }

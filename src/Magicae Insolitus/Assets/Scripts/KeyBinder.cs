@@ -81,7 +81,7 @@ public class KeyBinder : InstancedBehavior<KeyBinder>
             }
             catch (Exception e)
             {
-                Debug.LogException(e);
+                
             }
         }
     }
@@ -98,7 +98,7 @@ public class KeyBinder : InstancedBehavior<KeyBinder>
             }
             catch (Exception e)
             {
-                Debug.LogException(e);
+                
             }
         }
     }
@@ -115,7 +115,7 @@ public class KeyBinder : InstancedBehavior<KeyBinder>
             }
             catch (Exception e)
             {
-                Debug.LogException(e);
+                
             }
         }
     }
@@ -132,7 +132,7 @@ public class KeyBinder : InstancedBehavior<KeyBinder>
             }
             catch (Exception e)
             {
-                Debug.LogException(e);
+                
             }
         }
     }

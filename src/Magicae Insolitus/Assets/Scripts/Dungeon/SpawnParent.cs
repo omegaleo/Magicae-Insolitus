@@ -32,10 +32,10 @@ public class SpawnParent : InstancedBehavior<SpawnParent>
     {
         (_minRooms, _maxRooms) = GameManager.instance.GetDifficultySettings();
         
-        StartCoroutine(SpawnEntities());
+        StartCoroutine(SetRooms());
     }
 
-    private IEnumerator SpawnEntities()
+    private IEnumerator SetRooms()
     {
         yield return new WaitForSeconds(_waitTime);
         
@@ -84,6 +84,8 @@ public class SpawnParent : InstancedBehavior<SpawnParent>
             room = Instantiate(roomPrefab, this.transform);
         }
         
+        room.GetComponent<Room>().Hide();
+        
         AddRoom(position, room);
     }
 
@@ -93,4 +95,6 @@ public class SpawnParent : InstancedBehavior<SpawnParent>
 
         _rooms.Add(room.GetComponent<Room>());
     }
+    
+    
 }

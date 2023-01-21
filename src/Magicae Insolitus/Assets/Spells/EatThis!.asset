@@ -1,0 +1,17 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: bfa9053775bf405a9470fbd0a831f2c8, type: 3}
+  m_Name: EatThis!
+  m_EditorClassIdentifier: 
+  _projectile: {fileID: 235930175716120289, guid: dba986c7d91e9094c84c2d012e3a976d, type: 3}
+  _fireForce: 2
+  _spellName: Eat This!

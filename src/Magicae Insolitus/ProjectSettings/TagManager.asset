@@ -6,6 +6,7 @@ TagManager:
   tags:
   - SpawnPoint
   - Monster
+  - Projectile
   layers:
   - Default
   - TransparentFX

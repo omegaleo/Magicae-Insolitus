@@ -20,6 +20,7 @@ public class Monster : MonoBehaviour, IEntity
     [SerializeField] private float _moveSpeed = 2f;
     [SerializeField] private float _dps = 1f; // Damage per second
     [SerializeField] private float _health = 2f;
+    [SerializeField] private bool _isBoss = false;
     
     private bool _attacking = false;
     private bool _following = false;

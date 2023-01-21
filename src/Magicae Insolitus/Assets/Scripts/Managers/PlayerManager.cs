@@ -20,9 +20,12 @@ public class PlayerManager : InstancedBehavior<PlayerManager>, IEntity
     private float _aimAngle;
 
     [SerializeField] private Transform _firePoint;
-    [SerializeField] private List<GameObject> _projectiles = new List<GameObject>();
-    [SerializeField] private float _fireForce = 2f;
+    [SerializeField] private List<ScriptableObject> _spells;
 
+    private int _curSpell = 0;
+
+    public Transform FirePoint => _firePoint;
+    
     public string GetHeartString()
     {
         int fullHearts = (int)_health;
@@ -70,9 +73,15 @@ public class PlayerManager : InstancedBehavior<PlayerManager>, IEntity
 
     private void OnFire()
     {
-        GameObject projectile = Instantiate(_projectiles.Random());
-        projectile.transform.position = _firePoint.position;
-        projectile.GetComponent<Rigidbody2D>().AddForce(_firePoint.up * _fireForce, ForceMode2D.Impulse);
+        try
+        {
+            (_spells[_curSpell] as ISpell)?.Execute();
+        }
+        catch (Exception e)
+        {
+            //Console.WriteLine(e);
+            //throw;
+        }
     }
 
     private void OnAimMove(float x, float y)

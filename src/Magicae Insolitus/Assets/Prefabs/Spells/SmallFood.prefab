@@ -15,7 +15,7 @@ GameObject:
   - component: {fileID: 235930175716120292}
   m_Layer: 0
   m_Name: SmallFood
-  m_TagString: Untagged
+  m_TagString: Projectile
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -29,7 +29,7 @@ Transform:
   m_GameObject: {fileID: 235930175716120289}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: -1.46, y: 0.41, z: 0}
-  m_LocalScale: {x: 0.15, y: 0.15, z: 1}
+  m_LocalScale: {x: 0.5, y: 0.5, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 0}
@@ -75,8 +75,8 @@ SpriteRenderer:
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: 0
   m_SortingLayer: 0
-  m_SortingOrder: 0
-  m_Sprite: {fileID: -2413806693520163455, guid: a86470a33a6bf42c4b3595704624658b, type: 3}
+  m_SortingOrder: 2
+  m_Sprite: {fileID: -666140873, guid: 26f21b872befa7c459241ec9e6814b53, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
   m_FlipY: 0
@@ -102,7 +102,7 @@ CircleCollider2D:
   m_UsedByComposite: 0
   m_Offset: {x: 0, y: 0}
   serializedVersion: 2
-  m_Radius: 0.5
+  m_Radius: 0.3
 --- !u!50 &235930175716120288
 Rigidbody2D:
   serializedVersion: 4
@@ -138,3 +138,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _damage: 1
   _destructionTime: 2
+  _possibleSprites:
+  - {fileID: -666140873, guid: 26f21b872befa7c459241ec9e6814b53, type: 3}
+  - {fileID: -64327166, guid: 26f21b872befa7c459241ec9e6814b53, type: 3}
+  - {fileID: 1767683197, guid: 26f21b872befa7c459241ec9e6814b53, type: 3}
+  - {fileID: 143006399, guid: 26f21b872befa7c459241ec9e6814b53, type: 3}

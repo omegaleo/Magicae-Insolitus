@@ -25,7 +25,7 @@ public class PlayerManager : InstancedBehavior<PlayerManager>, IEntity
 
     public string GetHeartString()
     {
-        int fullHearts = Mathf.RoundToInt(_health);
+        int fullHearts = (int)_health;
         float remainder = _health - fullHearts;
 
         string hearts = "";
@@ -36,7 +36,7 @@ public class PlayerManager : InstancedBehavior<PlayerManager>, IEntity
             hearts += "<sprite=0>";
         }
 
-        if (remainder <= 0.25f)
+        if (remainder > 0f && remainder <= 0.25f)
         {
             // add a quarter heart
             hearts += "<sprite=3>";
@@ -114,7 +114,7 @@ public class PlayerManager : InstancedBehavior<PlayerManager>, IEntity
         {
             Debug.Log("Player died");
         }
-        
+
         HUD.instance.UpdateText();
         
         // Flash red
@@ -143,7 +143,7 @@ public class PlayerManager : InstancedBehavior<PlayerManager>, IEntity
             yield return new WaitForSeconds(0.25f);
             loop++;
         }
-
+        
         _sprite.color = Color.white;
         _collider.enabled = true;
         _canDamage = true;

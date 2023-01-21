@@ -69,6 +69,20 @@ public class KeyBinder : InstancedBehavior<KeyBinder>
         }
     }
 
+    public void OnMouseMove(InputAction.CallbackContext value)
+    {
+        var vec = value.ReadValue<Vector2>();
+
+        try
+        {
+            OnAimMove.Invoke(vec.x, vec.y);
+        }
+        catch (Exception e)
+        {
+            //Debug.LogException(e);
+        }
+    }
+
     public Action OnFire;
     
     public void OnFireDown(InputAction.CallbackContext value)

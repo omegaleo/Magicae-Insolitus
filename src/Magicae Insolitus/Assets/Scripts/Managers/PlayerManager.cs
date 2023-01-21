@@ -1,24 +1,151 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
+using OmegaLeo.Toolbox.Runtime.Extensions;
 using OmegaLeo.Toolbox.Runtime.Models;
 using Unity.VisualScripting;
 using UnityEngine;
+using UnityEngine.InputSystem;
 
-public class PlayerManager : InstancedBehavior<PlayerManager>
+public class PlayerManager : InstancedBehavior<PlayerManager>, IEntity
 {
     [SerializeField] private float runSpeed = 10f;
+
+    private float _health = 3f;
+    private bool _canDamage = true;
+    
+    private SpriteRenderer _sprite;
+    private BoxCollider2D _collider;
+    
+    private float _aimAngle;
+
+    [SerializeField] private Transform _firePoint;
+    [SerializeField] private List<GameObject> _projectiles = new List<GameObject>();
+    [SerializeField] private float _fireForce = 2f;
+
+    public string GetHeartString()
+    {
+        int fullHearts = Mathf.RoundToInt(_health);
+        float remainder = _health - fullHearts;
+
+        string hearts = "";
+
+        for (int i = 0; i < fullHearts; i++)
+        {
+            // add a heart
+            hearts += "<sprite=0>";
+        }
+
+        if (remainder <= 0.25f)
+        {
+            // add a quarter heart
+            hearts += "<sprite=3>";
+        }
+        else if (remainder > 0.25f && remainder <= 0.5f)
+        {
+            // add a half heart
+            hearts += "<sprite=2>";
+        }
+        else if (remainder > 0.5f && remainder <= 0.75f)
+        {
+            // add a 3 quarters heart
+            hearts += "<sprite=1>";
+        }
+        
+        return hearts;
+    }
+
+    private Rigidbody2D _rb2d;
     
     // Start is called before the first frame update
     void Start()
     {
         KeyBinder.instance.OnMove += OnMove;
+        KeyBinder.instance.OnAimMove += OnAimMove;
+        KeyBinder.instance.OnFire += OnFire;
+        _collider = GetComponent<BoxCollider2D>();
+        _sprite = GetComponent<SpriteRenderer>();
+        _rb2d = GetComponent<Rigidbody2D>();
     }
 
+    private void OnFire()
+    {
+        GameObject projectile = Instantiate(_projectiles.Random());
+        projectile.transform.position = _firePoint.position;
+        projectile.GetComponent<Rigidbody2D>().AddForce(_firePoint.up * _fireForce, ForceMode2D.Impulse);
+    }
+
+    private void OnAimMove(float x, float y)
+    {
+        if (x != 0f || y != 0f)
+        {
+            var dir = new Vector3(x, y, 0f) - Camera.main.WorldToScreenPoint(transform.position);
+            var angle = Mathf.Atan2(-dir.x, dir.y) * Mathf.Rad2Deg;
+            transform.rotation = Quaternion.AngleAxis(angle, Vector3.forward);
+            
+            //_aimAngle = Mathf.Atan2(y, x) * Mathf.Rad2Deg - 90f;
+            //_rb2d.rotation = _aimAngle;
+        }
+    }
+    
     private void OnMove(float horizontal, float vertical)
     {
         if (!UIManager.instance.IsUIOpen)
         {
-            GetComponent<Rigidbody2D>().velocity = new Vector2(horizontal * runSpeed, vertical * runSpeed);
+            if (horizontal != 0f || vertical != 0f)
+            {
+                _rb2d.velocity = new Vector2(horizontal * runSpeed, vertical * runSpeed);
+                _rb2d.constraints = RigidbodyConstraints2D.None;
+            }
+            else
+            {
+                _rb2d.constraints = RigidbodyConstraints2D.FreezeAll;
+            }
         }
+    }
+
+    public void DoDamage(float damage)
+    {
+        if (!_canDamage) return;
+        
+        _health -= damage;
+
+        if (_health <= 0f)
+        {
+            Debug.Log("Player died");
+        }
+        
+        HUD.instance.UpdateText();
+        
+        // Flash red
+        StartCoroutine(Flashing());
+    }
+
+    private IEnumerator Flashing()
+    {
+        int loop = 0;
+
+        //_collider.enabled = false;
+
+        _canDamage = false;
+        
+        while (loop < 4)
+        {
+            if (_sprite.color == Color.white)
+            {
+                _sprite.color = Color.red;
+            }
+            else
+            {
+                _sprite.color = Color.white;
+            }
+
+            yield return new WaitForSeconds(0.25f);
+            loop++;
+        }
+
+        _sprite.color = Color.white;
+        _collider.enabled = true;
+        _canDamage = true;
     }
 }

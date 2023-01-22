@@ -62,14 +62,32 @@ public class PlayerManager : InstancedBehavior<PlayerManager>, IEntity
     
     public string GetManaString()
     {
+        int fullMP = (int)_mp;
+        float remainder = _mp - fullMP;
         string mana = "";
 
-        for (int i = 0; i < _mp; i++)
+        for (int i = 0; i < fullMP; i++)
         {
             // add a heart
             mana += "<sprite=4>";
         }
-
+        
+        if (remainder > 0f && remainder <= 0.25f)
+        {
+            // add a quarter heart
+            mana += "<sprite=7>";
+        }
+        else if (remainder > 0.25f && remainder <= 0.5f)
+        {
+            // add a half heart
+            mana += "<sprite=6>";
+        }
+        else if (remainder > 0.5f && remainder <= 0.75f)
+        {
+            // add a 3 quarters heart
+            mana += "<sprite=5>";
+        }
+        
         return mana;
     }
 
@@ -80,12 +98,16 @@ public class PlayerManager : InstancedBehavior<PlayerManager>, IEntity
     // Start is called before the first frame update
     void Start()
     {
+        _health = 3f;
+        _mp = 3f;
+        _maxMp = 3f;
         KeyBinder.instance.OnMove += OnMove;
         KeyBinder.instance.OnAimMove += OnAimMove;
         KeyBinder.instance.OnFire += OnFire;
         _collider = GetComponent<BoxCollider2D>();
         _sprite = GetComponent<SpriteRenderer>();
         _rb2d = GetComponent<Rigidbody2D>();
+        HUD.instance.UpdateText();
     }
 
     private void OnFire()

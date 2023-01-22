@@ -84,10 +84,25 @@ public class KeyBinder : InstancedBehavior<KeyBinder>
     }
 
     public Action OnFire;
+
+    private bool _isFiring;
     
     public void OnFireDown(InputAction.CallbackContext value)
     {
         if (value.performed)
+        {
+            _isFiring = true;
+            StartCoroutine(Fire());
+        }
+        else
+        {
+            _isFiring = false;
+        }
+    }
+
+    private IEnumerator Fire()
+    {
+        while (_isFiring)
         {
             try
             {
@@ -97,6 +112,8 @@ public class KeyBinder : InstancedBehavior<KeyBinder>
             {
                 
             }
+
+            yield return new WaitForSeconds(0.1f);
         }
     }
     

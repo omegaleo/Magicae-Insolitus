@@ -62,6 +62,8 @@ public class Room : MonoBehaviour
                 
                 break;
             case RoomType.Chest:
+                var item = ItemManager.instance.SpawnRandomItem(transform);
+                item.SetActive(!_isHidden);
                 break;
             case RoomType.Fountain:
                 break;
@@ -82,6 +84,10 @@ public class Room : MonoBehaviour
         foreach (Transform t in transform)
         {
             if (t.GetComponents(typeof(IEntity)).Any())
+            {
+                t.gameObject.SetActive(false);
+            }
+            else if (t.GetComponent<ItemDrop>() != null)
             {
                 t.gameObject.SetActive(false);
             }
@@ -115,6 +121,10 @@ public class Room : MonoBehaviour
         foreach (Transform t in transform)
         {
             if (t.GetComponents(typeof(IEntity)).Any())
+            {
+                t.gameObject.SetActive(true);
+            }
+            else if (t.GetComponent<ItemDrop>() != null)
             {
                 t.gameObject.SetActive(true);
             }

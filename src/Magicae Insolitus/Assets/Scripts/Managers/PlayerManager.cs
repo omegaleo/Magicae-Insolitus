@@ -12,6 +12,8 @@ public class PlayerManager : InstancedBehavior<PlayerManager>, IEntity
     [SerializeField] private float runSpeed = 10f;
 
     private float _health = 3f;
+    private float _mp = 3f;
+    private float _maxMp = 3f;
     private bool _canDamage = true;
     
     private SpriteRenderer _sprite;
@@ -57,8 +59,23 @@ public class PlayerManager : InstancedBehavior<PlayerManager>, IEntity
         
         return hearts;
     }
+    
+    public string GetManaString()
+    {
+        string mana = "";
+
+        for (int i = 0; i < _mp; i++)
+        {
+            // add a heart
+            mana += "<sprite=4>";
+        }
+
+        return mana;
+    }
 
     private Rigidbody2D _rb2d;
+
+    private bool _recoveringMP = false;
     
     // Start is called before the first frame update
     void Start()
@@ -75,7 +92,20 @@ public class PlayerManager : InstancedBehavior<PlayerManager>, IEntity
     {
         try
         {
-            (_spells[_curSpell] as ISpell)?.Execute();
+            var spell = (_spells[_curSpell] as ISpell);
+
+            if (spell != null && spell.MpCost() <= _mp)
+            {
+                spell.Execute();
+                _mp -= spell.MpCost();
+                HUD.instance.UpdateText();
+            }
+
+            if (_mp < _maxMp && !_recoveringMP)
+            {
+                // Start recovering
+                StartCoroutine(RecoverMP());
+            }
         }
         catch (Exception e)
         {
@@ -84,6 +114,20 @@ public class PlayerManager : InstancedBehavior<PlayerManager>, IEntity
         }
     }
 
+    private IEnumerator RecoverMP()
+    {
+        _recoveringMP = true;
+        
+        while (_mp < _maxMp)
+        {
+            yield return new WaitForSeconds(2.5f);
+            _mp++;
+            HUD.instance.UpdateText();
+        }
+        
+        _recoveringMP = false;
+    }
+    
     private void OnAimMove(float x, float y)
     {
         if (x != 0f || y != 0f)
@@ -156,5 +200,23 @@ public class PlayerManager : InstancedBehavior<PlayerManager>, IEntity
         _sprite.color = Color.white;
         _collider.enabled = true;
         _canDamage = true;
+    }
+
+    public void AddHearts(float hearts)
+    {
+        _health += hearts;
+        HUD.instance.UpdateText();
+    }
+    
+    public void AddMP(float mp)
+    {
+        _mp += mp;
+        _maxMp += mp;
+        HUD.instance.UpdateText();
+    }
+
+    public void AddSpell(ScriptableObject spell)
+    {
+        _spells.Add(spell);
     }
 }

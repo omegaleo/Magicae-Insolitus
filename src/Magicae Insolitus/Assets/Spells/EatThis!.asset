@@ -15,3 +15,4 @@ MonoBehaviour:
   _projectile: {fileID: 235930175716120289, guid: dba986c7d91e9094c84c2d012e3a976d, type: 3}
   _fireForce: 2
   _spellName: Eat This!
+  _mpCost: 0.5

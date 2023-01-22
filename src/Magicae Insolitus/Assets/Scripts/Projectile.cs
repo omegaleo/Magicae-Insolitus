@@ -12,6 +12,8 @@ public class Projectile : MonoBehaviour
     [SerializeField] private float _destructionTime = 5f;
 
     [SerializeField] private List<Sprite> _possibleSprites = new List<Sprite>();
+
+    public Transform caster;
     
     private void Start()
     {
@@ -39,6 +41,8 @@ public class Projectile : MonoBehaviour
     private void OnCollisionEnter2D(Collision2D col)
     {
         if (col.gameObject.CompareTag("Projectile")) return;
+
+        if (caster == col.transform) return;
         
         var entity = col.gameObject.GetComponents(typeof(IEntity)).FirstOrDefault();
 

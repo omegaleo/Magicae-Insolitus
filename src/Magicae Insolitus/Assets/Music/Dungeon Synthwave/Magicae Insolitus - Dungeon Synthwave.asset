@@ -1,0 +1,20 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: eff4a954ffc9490597d3dfdc15253ff3, type: 3}
+  m_Name: Magicae Insolitus - Dungeon Synthwave
+  m_EditorClassIdentifier: 
+  intro: {fileID: 8300000, guid: 6d96d92d9871a8c49845118fc7567547, type: 3}
+  segments:
+  - {fileID: 8300000, guid: 5e5d99d47a9db36468b5feb79cbbbb12, type: 3}
+  - {fileID: 8300000, guid: 23efb5a427fd4cf4ba64a09ed53cfed2, type: 3}
+  - {fileID: 8300000, guid: bdce74fa5f2a32c469449996e5c3866c, type: 3}
+  - {fileID: 8300000, guid: b7dd0ff53c9478c40b3afcaed25eee05, type: 3}

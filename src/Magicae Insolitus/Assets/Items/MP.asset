@@ -16,3 +16,4 @@ MonoBehaviour:
   AmountToGive: 1
   SpellToGive: {fileID: 0}
   Sprite: {fileID: 22581449, guid: 37bdec6ffb291ba4683268bc7a56acdc, type: 3}
+  Cost: 7

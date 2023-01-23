@@ -118,6 +118,7 @@ public class Monster : MonoBehaviour, IEntity
 
         if (_health <= 0f)
         {
+            ItemManager.instance.SpawnItemDrop(transform.position, Item.ItemType.Coin);
             Destroy(this.gameObject);
         }
         // Flash red

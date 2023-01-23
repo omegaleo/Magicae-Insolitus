@@ -68,6 +68,16 @@ public class Room : MonoBehaviour
             case RoomType.Fountain:
                 break;
             case RoomType.Shop:
+                var pedestalCenter = ItemManager.instance.SpawnShopPedestal(transform, transform.position);
+                pedestalCenter.SetActive(!_isHidden);
+
+                var leftPosition = new Vector3(transform.position.x - 1.5f, transform.position.y, transform.position.z);
+                var pedestalLeft = ItemManager.instance.SpawnShopPedestal(transform, leftPosition);
+                pedestalLeft.SetActive(!_isHidden);
+                
+                var rightPosition = new Vector3(transform.position.x + 1.5f, transform.position.y, transform.position.z);
+                var pedestalRight = ItemManager.instance.SpawnShopPedestal(transform, rightPosition);
+                pedestalRight.SetActive(!_isHidden);
                 break;
             default:
                 break;
@@ -88,6 +98,10 @@ public class Room : MonoBehaviour
                 t.gameObject.SetActive(false);
             }
             else if (t.GetComponent<ItemDrop>() != null)
+            {
+                t.gameObject.SetActive(false);
+            }
+            else if (t.GetComponent<ShopPedestal>() != null)
             {
                 t.gameObject.SetActive(false);
             }
@@ -125,6 +139,10 @@ public class Room : MonoBehaviour
                 t.gameObject.SetActive(true);
             }
             else if (t.GetComponent<ItemDrop>() != null)
+            {
+                t.gameObject.SetActive(true);
+            }
+            else if (t.GetComponent<ShopPedestal>() != null)
             {
                 t.gameObject.SetActive(true);
             }

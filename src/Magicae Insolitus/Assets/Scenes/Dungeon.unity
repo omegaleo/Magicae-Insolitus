@@ -457,6 +457,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   runSpeed: 2.5
+  coins: 0
   _firePoint: {fileID: 1578534215}
   _spells:
   - {fileID: 11400000, guid: 715da7bea1a14f54cb691833d5d58cdc, type: 2}

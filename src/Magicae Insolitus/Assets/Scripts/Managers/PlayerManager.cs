@@ -6,6 +6,7 @@ using OmegaLeo.Toolbox.Runtime.Models;
 using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.InputSystem;
+using UnityEngine.Serialization;
 
 public class PlayerManager : InstancedBehavior<PlayerManager>, IEntity
 {
@@ -15,6 +16,7 @@ public class PlayerManager : InstancedBehavior<PlayerManager>, IEntity
     private float _mp = 3f;
     private float _maxMp = 3f;
     private bool _canDamage = true;
+    public int coins = 0;
     
     private SpriteRenderer _sprite;
     private BoxCollider2D _collider;
@@ -90,6 +92,8 @@ public class PlayerManager : InstancedBehavior<PlayerManager>, IEntity
         
         return mana;
     }
+
+    public string CoinString => $"<sprite=8> {coins}";
 
     private Rigidbody2D _rb2d;
 
@@ -233,12 +237,23 @@ public class PlayerManager : InstancedBehavior<PlayerManager>, IEntity
     public void AddMP(float mp)
     {
         _mp += mp;
-        _maxMp += mp;
+
+        if (_mp > _maxMp)
+        {
+            _maxMp = Mathf.Ceil(_mp);
+        }
+        
         HUD.instance.UpdateText();
     }
 
     public void AddSpell(ScriptableObject spell)
     {
         _spells.Add(spell);
+    }
+
+    public void AddCoins(int coins)
+    {
+        this.coins += coins;
+        HUD.instance.UpdateText();
     }
 }

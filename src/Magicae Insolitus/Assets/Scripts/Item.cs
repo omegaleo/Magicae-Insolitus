@@ -7,7 +7,8 @@ public class Item : ScriptableObject
     {
         Spell,
         Heart,
-        MP
+        MP,
+        Coin
     }
 
     public ItemType Type;
@@ -17,6 +18,8 @@ public class Item : ScriptableObject
     public ScriptableObject SpellToGive;
 
     public Sprite Sprite;
+
+    public int Cost = 10;
     
     public void Execute()
     {
@@ -30,6 +33,9 @@ public class Item : ScriptableObject
                 break;
             case ItemType.Spell:
                 PlayerManager.instance.AddSpell(SpellToGive);
+                break;
+            case ItemType.Coin:
+                PlayerManager.instance.AddCoins((int)AmountToGive);
                 break;
         }
     }

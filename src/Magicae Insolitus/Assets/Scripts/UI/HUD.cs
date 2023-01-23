@@ -15,6 +15,10 @@ public class HUD : InstancedBehavior<HUD>
 
     public void UpdateText()
     {
-        _text.text = PlayerManager.instance.GetHeartString() + Environment.NewLine + PlayerManager.instance.GetManaString();
+        _text.text = PlayerManager.instance.GetHeartString() + 
+                     Environment.NewLine + 
+                     PlayerManager.instance.GetManaString() + 
+                     Environment.NewLine +
+                     PlayerManager.instance.CoinString;
     }
 }

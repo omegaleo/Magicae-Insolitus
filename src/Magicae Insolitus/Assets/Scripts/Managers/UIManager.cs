@@ -16,13 +16,20 @@ public class UIManager : InstancedBehavior<UIManager>
     {
         _uiCollection = new List<I_UIBase>();
 
+        var ui = GetComponents(typeof(I_UIBase));
+
+        if (ui != null)
+        {
+            _uiCollection.AddRange(ui.Select(x => x as I_UIBase));
+        }
+        
         foreach (Transform t in transform)
         {
-            var ui = t.GetComponents(typeof(I_UIBase));
+            var childUi = t.GetComponents(typeof(I_UIBase));
 
-            if (ui != null)
+            if (childUi != null)
             {
-                _uiCollection.AddRange(ui.Select(x => x as I_UIBase));
+                _uiCollection.AddRange(childUi.Select(x => x as I_UIBase));
             }
         }
     }

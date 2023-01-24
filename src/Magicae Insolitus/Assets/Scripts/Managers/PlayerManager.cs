@@ -13,6 +13,7 @@ public class PlayerManager : InstancedBehavior<PlayerManager>, IEntity
     [SerializeField] private float runSpeed = 10f;
 
     private float _health = 3f;
+    private float _maxHealth = 3f;
     private float _mp = 3f;
     private float _maxMp = 3f;
     private bool _canDamage = true;
@@ -231,6 +232,12 @@ public class PlayerManager : InstancedBehavior<PlayerManager>, IEntity
     public void AddHearts(float hearts)
     {
         _health += hearts;
+
+        if (_health > _maxHealth)
+        {
+            _maxHealth = Mathf.Ceil(_health);
+        }
+        
         HUD.instance.UpdateText();
     }
     

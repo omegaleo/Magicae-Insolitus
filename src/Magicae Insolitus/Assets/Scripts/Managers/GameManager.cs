@@ -31,4 +31,15 @@ public class GameManager : InstancedBehavior<GameManager>
         
         return new Tuple<int, int>(diff.minRooms, diff.maxRooms);
     }
+
+    protected override void Awake()
+    {
+        if (instance != null)
+        {
+            Destroy(this.gameObject);
+        }
+        
+        DontDestroyOnLoad(this.gameObject);
+        base.Awake();
+    }
 }

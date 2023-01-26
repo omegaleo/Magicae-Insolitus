@@ -23,7 +23,7 @@ public class ShopPedestal : MonoBehaviour
     {
         if (col.gameObject.CompareTag("Player"))
         {
-            if (PlayerManager.instance.coins >= _item.Cost)
+            if (_item != null && PlayerManager.instance.coins >= _item.Cost)
             {
                 PlayerManager.instance.AddCoins(-_item.Cost);
                 _item.Execute();

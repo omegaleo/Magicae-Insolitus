@@ -1,11 +1,9 @@
-using System;
 using System.Collections;
 using System.Collections.Generic;
 using OmegaLeo.Toolbox.Runtime.Models;
 using UnityEngine;
-using UnityEngine.SceneManagement;
 
-public class TitlescreenManager : InstancedBehavior<TitlescreenManager>, I_UIBase
+public class LoadingScreen : InstancedBehavior<LoadingScreen>, I_UIBase
 {
     public GameObject panel
     {
@@ -15,18 +13,13 @@ public class TitlescreenManager : InstancedBehavior<TitlescreenManager>, I_UIBas
 
     [SerializeField] private GameObject _panel;
 
-    private void Start()
+    public void Show()
     {
         _panel.SetActive(true);
-
-        KeyBinder.instance.OnMenu += OnMenu;
     }
 
-    private void OnMenu()
+    public void Hide()
     {
-        LoadingScreen.instance.Show();
-        SceneManager.LoadScene(1);
         _panel.SetActive(false);
-        KeyBinder.instance.OnMenu -= OnMenu;
     }
 }

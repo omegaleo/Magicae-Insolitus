@@ -59,6 +59,7 @@ public class SpawnParent : InstancedBehavior<SpawnParent>
             SetRoom(_monsterRoomsToSpawn, Room.RoomType.Monster);
 
             Debug.Log($"Number of shops to spawn: {_shopsToSpawn}, Chests to spawn: {_chestRoomsToSpawn}, Fountains to spawn: {_fountainsToSpawn}, Monster rooms to spawn: {_monsterRoomsToSpawn}");
+            LoadingScreen.instance.Hide();
         }
     }
 

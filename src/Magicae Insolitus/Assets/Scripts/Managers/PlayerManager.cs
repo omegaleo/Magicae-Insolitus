@@ -115,6 +115,27 @@ public class PlayerManager : InstancedBehavior<PlayerManager>, IEntity
         HUD.instance.UpdateText();
     }
 
+    private void OnDestroy()
+    {
+        KeyBinder.instance.OnMove -= OnMove;
+        KeyBinder.instance.OnAimMove -= OnAimMove;
+        KeyBinder.instance.OnFire -= OnFire;
+    }
+
+    private void OnEnable()
+    {
+        KeyBinder.instance.OnMove += OnMove;
+        KeyBinder.instance.OnAimMove += OnAimMove;
+        KeyBinder.instance.OnFire += OnFire;
+    }
+    
+    private void OnDisable()
+    {
+        KeyBinder.instance.OnMove -= OnMove;
+        KeyBinder.instance.OnAimMove -= OnAimMove;
+        KeyBinder.instance.OnFire -= OnFire;
+    }
+
     private void OnFire()
     {
         try

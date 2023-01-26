@@ -59,7 +59,7 @@ public class KeyBinder : InstancedBehavior<KeyBinder>
         
             var moveHorizontal = (vec.x > 0.5f || vec.x < -0.5f) ? vec.x : 0f;
             var moveVertical = (vec.y > 0.5f || vec.y < -0.5f) ? vec.y : 0f;
-            OnAimMove?.Invoke(moveHorizontal, moveVertical);
+            OnAimMove?.Invoke(vec.x, vec.y);
         }
         catch (Exception e)
         {

@@ -806,10 +806,6 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 412491723}
     m_Modifications:
-    - target: {fileID: 1434632192301496465, guid: 0127c20e21e4bae45bc60718a23cffbe, type: 3}
-      propertyPath: m_Enabled
-      value: 1
-      objectReference: {fileID: 0}
     - target: {fileID: 7490273047733603594, guid: 0127c20e21e4bae45bc60718a23cffbe, type: 3}
       propertyPath: m_Name
       value: Center_Room

@@ -1,0 +1,77 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c8838631e01449d79c379fbfbeadef5f, type: 3}
+  m_Name: BuildSettings
+  m_EditorClassIdentifier: 
+  itchPath: F:/GameProjects/Itch.io Butler/MagicaeInsolitus
+  steamPath: 
+  steamDeckPath: 
+  uwpPath: 
+  steamDeckClientApp: steam://rungameid/943760
+  steamReleasePublish: 
+  steamDemoPublish: 
+  steamBetaPublish: 
+  itchReleasePublish: F:/GameProjects/Itch.io Butler/pushMagicaeInsolitus.bat
+  itchDemoPublish: 
+  itchBetaPublish: 
+  demo: 0
+  beta: 0
+  itch: 1
+  steamDeck: 0
+  dev: 0
+  demoScenes: []
+  releaseScenes: []
+  ProjectName: Magicae Insolitus
+  CompanyName: OmegaLeo
+  CompanyNameForUWP: 
+  BaseBuildNumber: v1.0.0-rc4
+  BundleIdentifier: pt.omegaleo.magicae-insolitus
+  BundleVersionCode: 1
+  KeyAliasPassword: 
+  KeyStorePassword: 
+  BuildNumber: 1
+  buildTargets:
+  - name: Windows
+    target: 19
+    folder: win
+    extension: .exe
+    enabled: 1
+  - name: Linux
+    target: 24
+    folder: linux
+    extension: .x86_64
+    enabled: 1
+  - name: Android
+    target: 13
+    folder: android
+    extension: .apk
+    enabled: 0
+  - name: Mac OS X
+    target: 2
+    folder: osx
+    extension: 
+    enabled: 0
+  - name: WebGL
+    target: 20
+    folder: webgl
+    extension: 
+    enabled: 1
+  - name: UWP
+    target: 21
+    folder: uwp
+    extension: 
+    enabled: 0
+  - name: SteamDeck
+    target: 24
+    folder: steamdeck
+    extension: .x86_64
+    enabled: 0

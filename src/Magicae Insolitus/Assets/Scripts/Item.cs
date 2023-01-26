@@ -27,9 +27,11 @@ public class Item : ScriptableObject
         {
             case ItemType.Heart:
                 PlayerManager.instance.AddHearts(AmountToGive);
+                SfxManager.instance.PlaySound(SfxManager.SfxType.Heal);
                 break;
             case ItemType.MP:
                 PlayerManager.instance.AddMP(AmountToGive);
+                SfxManager.instance.PlaySound(SfxManager.SfxType.Heal);
                 break;
             case ItemType.Spell:
                 PlayerManager.instance.AddSpell(SpellToGive);

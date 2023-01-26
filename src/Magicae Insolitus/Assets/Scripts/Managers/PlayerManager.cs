@@ -126,6 +126,7 @@ public class PlayerManager : InstancedBehavior<PlayerManager>, IEntity
                 spell.Execute();
                 _mp -= spell.MpCost();
                 HUD.instance.UpdateText();
+                SfxManager.instance.PlaySound(SfxManager.SfxType.Shoot);
             }
 
             if (_mp < _maxMp && !_recoveringMP)
@@ -195,6 +196,7 @@ public class PlayerManager : InstancedBehavior<PlayerManager>, IEntity
             Debug.Log("Player died");
         }
 
+        SfxManager.instance.PlaySound(SfxManager.SfxType.Hit);
         HUD.instance.UpdateText();
         
         // Flash red

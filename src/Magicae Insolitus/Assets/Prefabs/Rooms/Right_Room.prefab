@@ -1459,6 +1459,7 @@ MonoBehaviour:
   _toHide:
   - {fileID: 1392297011483831561}
   - {fileID: 1392297010566604577}
+  _cameraOffset: {x: -0.5, y: -0.5}
   roomType: 0
   center: {fileID: 7683368104826689317}
 --- !u!61 &4734995381796631391

@@ -3,6 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
+using UnityEngine.Serialization;
 
 public class Monster : MonoBehaviour, IEntity
 {
@@ -20,10 +21,12 @@ public class Monster : MonoBehaviour, IEntity
     [SerializeField] private float _moveSpeed = 2f;
     [SerializeField] private float _dps = 1f; // Damage per second
     [SerializeField] private float _health = 2f;
-    [SerializeField] private bool _isBoss = false;
+    public bool IsBoss = false;
     
     private bool _attacking = false;
     private bool _following = false;
+    
+    private Vector3 _spawnPosition = Vector3.zero;
 
     private SpriteRenderer _sprite;
 
@@ -31,6 +34,7 @@ public class Monster : MonoBehaviour, IEntity
     {
         StartCoroutine(CheckDamage());
         _sprite = GetComponent<SpriteRenderer>();
+        _spawnPosition = transform.position;
     }
 
     public void SetTarget(bool targetPlayer)
@@ -93,14 +97,30 @@ public class Monster : MonoBehaviour, IEntity
     // Update is called once per frame
     private void Update()
     {
-        if (!UIManager.instance.IsUIOpen && _following)
+        if (!UIManager.instance.IsUIOpen)
         {
-            if (Vector2.Distance(transform.position, _target.position) < _distance)
+            if (_following)
+            {
+                if (Vector2.Distance(transform.position, _target.position) < _distance)
+                {
+                    transform.position =
+                        Vector2.MoveTowards(transform.position, _target.position, _moveSpeed * Time.deltaTime);
+
+                    if (_target.position.x < transform.position.x)
+                    {
+                        transform.rotation = new Quaternion(0f, 180f, 0f, 0f);
+                    }
+                    else
+                    {
+                        transform.rotation = new Quaternion(0f, 0f, 0f, 0f);
+                    }
+                }
+            }
+            else
             {
                 transform.position =
-                    Vector2.MoveTowards(transform.position, _target.position, _moveSpeed * Time.deltaTime);
-
-                if (_target.position.x < transform.position.x)
+                    Vector2.MoveTowards(transform.position, _spawnPosition, _moveSpeed * Time.deltaTime);
+                if (_target.position.x < _spawnPosition.x)
                 {
                     transform.rotation = new Quaternion(0f, 180f, 0f, 0f);
                 }

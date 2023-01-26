@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -13,6 +14,13 @@ public class VolumeSlider : MonoBehaviour
 
     public void SetVolume()
     {
-        MusicManager.instance.SetVolume(GetComponent<Slider>().value);
+        try
+        {
+            MusicManager.instance.SetVolume(GetComponent<Slider>().value);
+        }
+        catch (Exception e)
+        {
+            Debug.LogException(e);
+        }
     }
 }

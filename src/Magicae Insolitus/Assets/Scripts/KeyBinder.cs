@@ -35,18 +35,17 @@ public class KeyBinder : InstancedBehavior<KeyBinder>
     
     public void OnMoveDown(InputAction.CallbackContext value)
     {
-        var vec = value.ReadValue<Vector2>();
-        
-        var moveHorizontal = (vec.x > 0.5f || vec.x < -0.5f) ? vec.x : 0f;
-        var moveVertical = (vec.y > 0.5f || vec.y < -0.5f) ? vec.y : 0f;
-
         try
         {
-            OnMove.Invoke(moveHorizontal, moveVertical);
+            var vec = value.ReadValue<Vector2>();
+        
+            var moveHorizontal = (vec.x > 0.5f || vec.x < -0.5f) ? vec.x : 0f;
+            var moveVertical = (vec.y > 0.5f || vec.y < -0.5f) ? vec.y : 0f;
+            OnMove?.Invoke(moveHorizontal, moveVertical);
         }
         catch (Exception e)
         {
-            //Debug.LogException(e);
+            Debug.LogException(e);
         }
     }
     
@@ -54,32 +53,30 @@ public class KeyBinder : InstancedBehavior<KeyBinder>
     
     public void OnAimMoveDown(InputAction.CallbackContext value)
     {
-        var vec = value.ReadValue<Vector2>();
-        
-        var moveHorizontal = (vec.x > 0.5f || vec.x < -0.5f) ? vec.x : 0f;
-        var moveVertical = (vec.y > 0.5f || vec.y < -0.5f) ? vec.y : 0f;
-
         try
         {
-            OnAimMove.Invoke(moveHorizontal, moveVertical);
+            var vec = value.ReadValue<Vector2>();
+        
+            var moveHorizontal = (vec.x > 0.5f || vec.x < -0.5f) ? vec.x : 0f;
+            var moveVertical = (vec.y > 0.5f || vec.y < -0.5f) ? vec.y : 0f;
+            OnAimMove?.Invoke(moveHorizontal, moveVertical);
         }
         catch (Exception e)
         {
-            //Debug.LogException(e);
+            Debug.LogException(e);
         }
     }
 
     public void OnMouseMove(InputAction.CallbackContext value)
     {
-        var vec = value.ReadValue<Vector2>();
-
         try
         {
-            OnAimMove.Invoke(vec.x, vec.y);
+            var vec = value.ReadValue<Vector2>();
+            OnAimMove?.Invoke(vec.x, vec.y);
         }
         catch (Exception e)
         {
-            //Debug.LogException(e);
+            Debug.LogException(e);
         }
     }
 
@@ -106,11 +103,11 @@ public class KeyBinder : InstancedBehavior<KeyBinder>
         {
             try
             {
-                OnFire.Invoke();
+                OnFire?.Invoke();
             }
             catch (Exception e)
             {
-                
+                Debug.LogException(e);
             }
 
             yield return new WaitForSeconds(0.1f);
@@ -125,11 +122,11 @@ public class KeyBinder : InstancedBehavior<KeyBinder>
         {
             try
             {
-                OnPrevSpell.Invoke();
+                OnPrevSpell?.Invoke();
             }
             catch (Exception e)
             {
-                
+                Debug.LogException(e);
             }
         }
     }
@@ -142,11 +139,11 @@ public class KeyBinder : InstancedBehavior<KeyBinder>
         {
             try
             {
-                OnNextSpell.Invoke();
+                OnNextSpell?.Invoke();
             }
             catch (Exception e)
             {
-                
+                Debug.LogException(e);
             }
         }
     }
@@ -159,11 +156,11 @@ public class KeyBinder : InstancedBehavior<KeyBinder>
         {
             try
             {
-                OnMenu.Invoke();
+                OnMenu?.Invoke();
             }
             catch (Exception e)
             {
-                
+                Debug.LogException(e);
             }
         }
     }

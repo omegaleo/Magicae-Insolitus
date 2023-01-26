@@ -40,6 +40,11 @@ public class Room : MonoBehaviour
         switch (roomType)
         {
             case RoomType.Boss:
+                var boss = MonsterManager.instance.GetBoss();
+                var bossObj = Instantiate(boss, transform);
+                bossObj.transform.position = transform.position;
+                bossObj.GetComponent<Monster>().SetTarget(true);
+                bossObj.SetActive(!_isHidden);
                 break;
             case RoomType.Monster:
                 var monstersToSpawn = MonsterManager.instance.GetMonsters(Random.Range(1, 5)).ToList();

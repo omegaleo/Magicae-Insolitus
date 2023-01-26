@@ -49,6 +49,7 @@ public class Projectile : MonoBehaviour
         if (entity != null)
         {
             (entity as IEntity).DoDamage(_damage);
+            SfxManager.instance.PlaySound(SfxManager.SfxType.Hit);
         }
 
         Destroy(this.gameObject);

@@ -10,6 +10,8 @@ public class ProjectileSpell : ScriptableObject, ISpell
     [SerializeField] private string _spellName;
 
     [SerializeField] private float _mpCost = 0f;
+
+    [SerializeField] private Sprite _icon;
     
     public float MpCost()
     {
@@ -27,5 +29,10 @@ public class ProjectileSpell : ScriptableObject, ISpell
         projectile.transform.position = PlayerManager.instance.FirePoint.position;
         projectile.GetComponent<Rigidbody2D>().AddForce(PlayerManager.instance.FirePoint.up * _fireForce, ForceMode2D.Impulse);
         projectile.GetComponent<Projectile>().caster = PlayerManager.instance.transform;
+    }
+
+    public Sprite GetIcon()
+    {
+        return _icon;
     }
 }

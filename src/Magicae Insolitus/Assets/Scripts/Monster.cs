@@ -7,13 +7,15 @@ using UnityEngine.Serialization;
 
 public class Monster : MonoBehaviour, IEntity
 {
+    [SerializeField] private string _guid;
+    
     public enum MonsterAttackType
     {
         Melee,
         Ranged
     }
 
-    private Transform _target;
+    [SerializeField] private Transform _target;
 
     private Vector2 _curPos;
 
@@ -30,18 +32,25 @@ public class Monster : MonoBehaviour, IEntity
 
     private SpriteRenderer _sprite;
 
+    private bool _targetPlayer;
+
+    private BoxCollider2D _collider;
+    
     private void Start()
     {
         StartCoroutine(CheckDamage());
         _sprite = GetComponent<SpriteRenderer>();
         _spawnPosition = transform.position;
+        _collider = GetComponent<BoxCollider2D>();
+        _collider.enabled = true;
     }
 
     public void SetTarget(bool targetPlayer)
     {
+        _targetPlayer = targetPlayer;
         _target = (targetPlayer)
             ? PlayerManager.instance.transform
-            : GameObject.FindGameObjectsWithTag("Monster").FirstOrDefault()?.transform;
+            : null;
     }
     
     private IEnumerator CheckDamage()
@@ -58,6 +67,13 @@ public class Monster : MonoBehaviour, IEntity
                 {
                     (entity as IEntity)?.DoDamage(_dps);
                 }
+            }
+
+            if (_target == null)
+            {
+                _target = (_targetPlayer)
+                    ? PlayerManager.instance.transform
+                    : GameObject.FindGameObjectsWithTag("Monster").FirstOrDefault()?.transform;
             }
         }
     }
@@ -80,6 +96,11 @@ public class Monster : MonoBehaviour, IEntity
 
     private void OnTriggerEnter2D(Collider2D col)
     {
+        if (!_targetPlayer && col.gameObject != PlayerManager.instance.gameObject && col.GetComponent<Monster>() != null)
+        {
+            _target = col.transform;
+        }
+        
         if (col.transform == _target)
         {
             _following = true;
@@ -101,6 +122,7 @@ public class Monster : MonoBehaviour, IEntity
         {
             if (_following)
             {
+                _collider.enabled = true;
                 if (Vector2.Distance(transform.position, _target.position) < _distance)
                 {
                     transform.position =
@@ -116,8 +138,9 @@ public class Monster : MonoBehaviour, IEntity
                     }
                 }
             }
-            else
+            else if (_targetPlayer)
             {
+                _collider.enabled = true;
                 transform.position =
                     Vector2.MoveTowards(transform.position, _spawnPosition, _moveSpeed * Time.deltaTime);
                 if (_target.position.x < _spawnPosition.x)
@@ -129,7 +152,26 @@ public class Monster : MonoBehaviour, IEntity
                     transform.rotation = new Quaternion(0f, 0f, 0f, 0f);
                 }
             }
+            else if (!_targetPlayer)
+            {
+                _collider.enabled = false;
+                transform.position =
+                    Vector2.MoveTowards(transform.position, PlayerManager.instance.transform.position, _moveSpeed * Time.deltaTime);
+                if (PlayerManager.instance.transform.position.x < _spawnPosition.x)
+                {
+                    transform.rotation = new Quaternion(0f, 180f, 0f, 0f);
+                }
+                else
+                {
+                    transform.rotation = new Quaternion(0f, 0f, 0f, 0f);
+                }
+            }
         }
+    }
+
+    public Guid GUID()
+    {
+        return Guid.Parse(_guid);
     }
 
     public void DoDamage(float damage)

@@ -10,12 +10,17 @@ public class ItemManager : InstancedBehavior<ItemManager>
     [SerializeField] private List<Item> _items;
     [SerializeField] private GameObject _prefab;
     [SerializeField] private GameObject _pedestalPrefab;
+
+    [SerializeField] private List<Item> _spawnedSpells = new List<Item>();
     
     public GameObject SpawnRandomItem(Transform parent)
     {
         var spawned = Instantiate(_prefab, parent);
-        spawned.GetComponent<ItemDrop>().SetItem(_items.Where(x => x.Type != Item.ItemType.Coin).ToList().Random());
+        var item = _items.Where(x => x.Type != Item.ItemType.Coin && _spawnedSpells.All(y => x != y)).ToList().Random();
+        spawned.GetComponent<ItemDrop>().SetItem(item);
 
+        if (item.Type == Item.ItemType.Spell) _spawnedSpells.Add(item);
+        
         return spawned;
     }
     
@@ -31,8 +36,11 @@ public class ItemManager : InstancedBehavior<ItemManager>
     {
         var spawned = Instantiate(_pedestalPrefab, parent);
         spawned.transform.position = position;
-        spawned.GetComponent<ShopPedestal>().SetItem(_items.Where(x => x.Type != Item.ItemType.Coin).ToList().Random());
+        var item = _items.Where(x => x.Type != Item.ItemType.Coin && _spawnedSpells.All(y => x != y)).ToList().Random();
+        spawned.GetComponent<ShopPedestal>().SetItem(item);
 
+        if (item.Type == Item.ItemType.Spell) _spawnedSpells.Add(item);
+        
         return spawned;
     }
 }

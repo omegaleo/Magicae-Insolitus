@@ -1,3 +1,5 @@
+using UnityEngine;
+
 public interface ISpell
 {
     public float MpCost();
@@ -5,4 +7,6 @@ public interface ISpell
     public string SpellName();
     
     public void Execute();
+
+    public Sprite GetIcon();
 }

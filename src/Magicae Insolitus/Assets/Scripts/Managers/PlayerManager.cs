@@ -1,6 +1,7 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
 using OmegaLeo.Toolbox.Runtime.Extensions;
 using OmegaLeo.Toolbox.Runtime.Models;
 using Unity.VisualScripting;
@@ -26,6 +27,7 @@ public class PlayerManager : InstancedBehavior<PlayerManager>, IEntity
 
     [SerializeField] private Transform _firePoint;
     [SerializeField] private List<ScriptableObject> _spells;
+    public List<IEntity> CapturedMonsters = new List<IEntity>();
 
     private int _curSpell = 0;
 
@@ -109,24 +111,32 @@ public class PlayerManager : InstancedBehavior<PlayerManager>, IEntity
         KeyBinder.instance.OnMove += OnMove;
         KeyBinder.instance.OnAimMove += OnAimMove;
         KeyBinder.instance.OnFire += OnFire;
+        KeyBinder.instance.OnNextSpell += NextSpell;
+        KeyBinder.instance.OnPrevSpell += PrevSpell;
         _collider = GetComponent<BoxCollider2D>();
         _sprite = GetComponent<SpriteRenderer>();
         _rb2d = GetComponent<Rigidbody2D>();
         HUD.instance.UpdateText();
+        UpdateSpells();
     }
 
+    
     private void OnDestroy()
     {
         KeyBinder.instance.OnMove -= OnMove;
         KeyBinder.instance.OnAimMove -= OnAimMove;
         KeyBinder.instance.OnFire -= OnFire;
+        KeyBinder.instance.OnNextSpell -= NextSpell;
+        KeyBinder.instance.OnPrevSpell -= PrevSpell;
     }
 
-    private void OnEnable()
+    /*private void OnEnable()
     {
         KeyBinder.instance.OnMove += OnMove;
         KeyBinder.instance.OnAimMove += OnAimMove;
         KeyBinder.instance.OnFire += OnFire;
+        KeyBinder.instance.OnNextSpell += NextSpell;
+        KeyBinder.instance.OnPrevSpell += PrevSpell;
     }
     
     private void OnDisable()
@@ -134,6 +144,35 @@ public class PlayerManager : InstancedBehavior<PlayerManager>, IEntity
         KeyBinder.instance.OnMove -= OnMove;
         KeyBinder.instance.OnAimMove -= OnAimMove;
         KeyBinder.instance.OnFire -= OnFire;
+        KeyBinder.instance.OnNextSpell -= NextSpell;
+        KeyBinder.instance.OnPrevSpell -= PrevSpell;
+    }*/
+
+    private void NextSpell()
+    {
+        _curSpell = GetSpell(1);
+        UpdateSpells();
+    }
+
+    private void PrevSpell()
+    {
+        _curSpell = GetSpell(-1);
+        UpdateSpells();
+    }
+
+    private int GetSpell(int increment)
+    {
+        var curSpell = _curSpell + increment;
+        if (curSpell >= _spells.Count)
+        {
+            curSpell = 0;
+        }
+        if (curSpell < 0)
+        {
+            curSpell = _spells.Count - 1;
+        }
+
+        return curSpell;
     }
 
     private void OnFire()
@@ -204,6 +243,11 @@ public class PlayerManager : InstancedBehavior<PlayerManager>, IEntity
                 _rb2d.constraints = RigidbodyConstraints2D.FreezeAll;
             }
         }
+    }
+
+    public Guid GUID()
+    {
+        return new Guid();
     }
 
     public void DoDamage(float damage)
@@ -279,11 +323,32 @@ public class PlayerManager : InstancedBehavior<PlayerManager>, IEntity
     public void AddSpell(ScriptableObject spell)
     {
         _spells.Add(spell);
+        _curSpell = 0;
+        UpdateSpells();
     }
 
+    void UpdateSpells()
+    {
+        SpellList.instance.UpdateIcons((_spells[_curSpell] as ISpell), (_spells[GetSpell(-1)] as ISpell), (_spells[GetSpell(1)] as ISpell));
+    }
+    
     public void AddCoins(int coins)
     {
         this.coins += coins;
         HUD.instance.UpdateText();
+    }
+
+    public void AddCapturedMonster(IEntity entity)
+    {
+        CapturedMonsters.Add(entity);
+    }
+
+    public GameObject GetRandomCapturedMonster()
+    {
+        var monster = (CapturedMonsters != null && CapturedMonsters.Any()) ? CapturedMonsters.Random() : null;
+
+        if (monster == null) return null;
+
+        return MonsterManager.instance.GetMonster(monster);
     }
 }

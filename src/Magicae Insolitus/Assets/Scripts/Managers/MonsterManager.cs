@@ -17,8 +17,19 @@ public class MonsterManager : InstancedBehavior<MonsterManager>
         }
     }
     
+    public GameObject GetMonster(IEntity entity)
+    {
+        return _monsters.Where(x => x.GetComponent<IEntity>().GUID() == entity.GUID()).ToList().Random();
+    }
+    
     public GameObject GetBoss()
     {
         return _monsters.Where(x => x.GetComponent<Monster>().IsBoss).ToList().Random();
+    }
+
+    public bool CaughtThemAll()
+    {
+        return _monsters.All(x =>
+            PlayerManager.instance.CapturedMonsters.Any(y => x.GetComponent<IEntity>().GUID() == y.GUID()));
     }
 }

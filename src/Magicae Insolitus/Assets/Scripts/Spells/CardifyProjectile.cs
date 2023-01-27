@@ -13,6 +13,9 @@ public class CardifyProjectile: Projectile
 
         if (entity != null)
         {
+            var isBoss = (entity as Monster)?.IsBoss;
+            if (isBoss.HasValue && isBoss.Value) return;
+            
             PlayerManager.instance.AddCapturedMonster((entity as IEntity));
             Destroy(col.gameObject);
             SfxManager.instance.PlaySound(SfxManager.SfxType.Hit);

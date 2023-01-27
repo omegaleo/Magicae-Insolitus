@@ -33,7 +33,7 @@ MonoBehaviour:
   ProjectName: Magicae Insolitus
   CompanyName: OmegaLeo
   CompanyNameForUWP: 
-  BaseBuildNumber: v1.0.1-rc1
+  BaseBuildNumber: v1.0.1-rc2
   BundleIdentifier: pt.omegaleo.magicae-insolitus
   BundleVersionCode: 1
   KeyAliasPassword: 

@@ -341,6 +341,11 @@ public class PlayerManager : InstancedBehavior<PlayerManager>, IEntity
     public void AddCapturedMonster(IEntity entity)
     {
         CapturedMonsters.Add(entity);
+        
+        if (MonsterManager.instance.CaughtThemAll())
+        {
+            AchievementUI.instance.UnlockAchievement("CAUGHT");
+        }
     }
 
     public GameObject GetRandomCapturedMonster()

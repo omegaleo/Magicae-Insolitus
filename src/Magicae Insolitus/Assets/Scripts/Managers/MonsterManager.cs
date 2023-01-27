@@ -29,7 +29,9 @@ public class MonsterManager : InstancedBehavior<MonsterManager>
 
     public bool CaughtThemAll()
     {
-        return _monsters.All(x =>
-            PlayerManager.instance.CapturedMonsters.Any(y => x.GetComponent<IEntity>().GUID() == y.GUID()));
+        return _monsters
+            .Where(x => !x.GetComponent<Monster>().IsBoss)
+            .All(x =>
+            PlayerManager.instance.CapturedMonsters.DistinctBy(y => y.GUID()).Any(y => x.GetComponent<IEntity>().GUID() == y.GUID()));
     }
 }
